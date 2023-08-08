@@ -14,12 +14,65 @@
 </head>
 
     <body>
-    <!-- Remove this line the first time you edit this file -->
+    <!-- Remove this line the first time you edit this file
      This is the index page of your Django app!
-    <!--Add a nav bar here -->
-
+    Add a nav bar here -->
+    <nav class="navbar navbar-light bg-light">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="{% url 'djangoapp:about' %}">About Us</a>
+            </div>
+            <div class="navbar-header">
+                  <a class="navbar-brand" href="#">Online Course</a>
+            </div>
+            <ul class="nav navbar-nav navbar-right">
+                
+                <li>
+                    <a class="btn btn-link" href="#"></a>
+                    <a class="btn btn-link" href="{}">Logout</a>
+                </li>
+                
+                <li>
+                    <form class="form-inline" action="{}" method="post">
+                        {% csrf_token %}
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Username" name="username" >
+                            <input type="password" class="form-control" placeholder="Username" name="psw" >
+                            <button class="btn btn-primary" type="submit">Login</button>
+                            <a class="btn btn-link" href="{}">Sign Up</a>
+                        </div>
+                    </form>
+                </li>
+                
+            </ul>
+        </div>
+    </nav>
     <!--Add a dealer table here -->
 
     </body>
+    <!-- Footer -->
+    <footer class="bg-dark text-center text-white">
+    
+        <section class="">
+            <!--Grid row-->
+            <div class="row">
+       
+            <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+                <a href="{% url 'djangoapp:contact' %}" class="text-white" >Contact Us</a>
+            </div>
+      
+            </div>
+            <!--Grid column-->
+            </div>
+            <!--Grid row-->
+        </section>
+        <!-- Section: Links -->
+        <!-- Grid container -->
+  
+        <!-- Copyright -->
+        
+        <!-- Copyright -->
+    </footer>
+    <!-- Footer -->
 
 </html>
