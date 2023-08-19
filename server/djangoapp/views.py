@@ -113,11 +113,11 @@ def get_dealer_details(request, dealer_id):
         #return render(request, 'djangoapp/index.html', context)
         url = "https://us-south.functions.appdomain.cloud/api/v1/web/55541385-d011-41ed-ad7e-867fc2819f68/dealership-package/get_review"
         # Get dealers from the URL
-        reviews = get_dealer_reviews_from_cf(url, 15)
+        reviews = get_dealer_reviews_from_cf(url, dealer_id)
         #dealerships = get_dealers_by_state(url,'Texas')
         context['reviews'] = reviews
         # Concat all dealer's short name
-        dealer_names = ' '.join([review.name for review in reviews])
+        dealer_names = ' '.join([review.review for review in reviews])
         # Return a list of dealer short name
         return HttpResponse(dealer_names)
 
