@@ -9,15 +9,24 @@ from requests.auth import HTTPBasicAuth
 # e.g., response = requests.get(url, params=params, headers={'Content-Type': 'application/json'},
 #                                     auth=HTTPBasicAuth('apikey', api_key))
 def get_request(url, **kwargs):
+    print('the kwargs are: ')
     print(kwargs)
     print("GET from {} ".format(url))
     if "api_key" in kwargs:
         try:
+            print('calling nlu api')
+            #response = requests.get(url, params=params, features=Features(
+            #entities=EntitiesOptions(emotion=True, sentiment=True, limit=2),
+            #keywords=KeywordsOptions(emotion=True, sentiment=True,
+                            #     limit=2)), headers={'Content-Type': 'application/json'},
+                             #                   auth=HTTPBasicAuth('apikey', api_key))
             params = dict()
             params["text"] = kwargs["text"]
-
+            #params["version"] = kwargs["version"]
+            params["features"] = kwargs["features"]
+            #params["return_analyzed_text"] = True
             response = requests.get(url, params=params, headers={'Content-Type': 'application/json'},
-                                                auth=HTTPBasicAuth('apikey', api_key))
+                                    auth=HTTPBasicAuth('apikey', api_key))
         except:
             print("Network exception occurred")
     else:
@@ -97,19 +106,22 @@ def get_dealer_reviews_from_cf(url, dealer_id, **kwargs):
         # For each dealer object
         for dealer_doc in dealers:
             # Get its content in `doc` object
-            
+            print("calling analyze_review_sentiments")
+            sentiment = analyze_review_sentiments(dealer_doc['review'])
+            print('')
             if dealer_doc['purchase']:
                 # Create a CarDealer object with values in `doc` object
+               
                 dealer_obj = DealerReview(dealership=dealer_doc["dealership"], purchase=dealer_doc["purchase"], name=dealer_doc["name"],
                                     id=dealer_doc["id"], review=dealer_doc["review"], purchase_date=dealer_doc["purchase_date"],
                                     car_make=dealer_doc["car_make"],
-                                    car_model=dealer_doc["car_model"], car_year=dealer_doc["car_year"], sentiment=analyze_review_sentiments(dealer_doc["review"]))
+                                    car_model=dealer_doc["car_model"], car_year=dealer_doc["car_year"], sentiment=sentiment)
                 results.append(dealer_obj)
             else:
                 dealer_obj = DealerReview(dealership=dealer_doc["dealership"], purchase=dealer_doc["purchase"], name=dealer_doc["name"],
                                     id=dealer_doc["id"], review=dealer_doc["review"], purchase_date=None,
                                     car_make=None,
-                                    car_model=None, car_year=None, sentiment=analyze_review_sentiments(dealer_doc["review"]))
+                                    car_model=None, car_year=None, sentiment=sentiment)
                 results.append(dealer_obj)
 
     return results
@@ -121,6 +133,24 @@ def get_dealer_reviews_from_cf(url, dealer_id, **kwargs):
 def analyze_review_sentiments(dealerreview, **kwargs):
     url = "https://api.us-south.natural-language-understanding.watson.cloud.ibm.com/instances/6c7755c8-7545-42ce-8512-a05f25de7841"
     api_key = "bl2BwdebH6L-KcaRFwXivojSrJI-Qa_pZ1_IpcjHGdzn" 
-    json_result = get_request(url,api_key=api_key,text=dealerreview)
+    #Features(
+     #   entities=EntitiesOptions(emotion=True, sentiment=True, limit=2),
+      #  keywords=KeywordsOptions(emotion=True, sentiment=True,
+       #                          limit=2))
+    features = {"features" : {
+                            "entities": {
+                                "emotion": True,
+                                "sentiment": True,
+                                "limit": 2
+                            },
+                            "keywords": {
+                                "emotion": True,
+                                "sentiment": True,
+                                "limit": 2
+                            }
+                    }
+    }
+    print("calling get_request for nlu")
+    json_result = get_request(url,api_key=api_key,text=dealerreview, features=features)
     return json_result
 
