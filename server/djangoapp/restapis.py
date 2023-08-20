@@ -4,11 +4,14 @@ import json
 from .models import CarDealer, DealerReview 
 from requests.auth import HTTPBasicAuth
 
+from ibm_watson import NaturalLanguageUnderstandingV1
+from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
+from ibm_watson.natural_language_understanding_v1 import Features, EntitiesOptions, KeywordsOptions, SentimentOptions
 
 # Create a `get_request` to make HTTP GET requests
 # e.g., response = requests.get(url, params=params, headers={'Content-Type': 'application/json'},
 #                                     auth=HTTPBasicAuth('apikey', api_key))
-def get_request(url, **kwargs):
+def get_request(url, **kwargs): 
     print('the kwargs are: ')
     print(kwargs)
     print("GET from {} ".format(url))
@@ -22,11 +25,18 @@ def get_request(url, **kwargs):
                              #                   auth=HTTPBasicAuth('apikey', api_key))
             params = dict()
             params["text"] = kwargs["text"]
-            #params["version"] = kwargs["version"]
+            params["version"] = kwargs["version"]
             params["features"] = kwargs["features"]
-            #params["return_analyzed_text"] = True
-            response = requests.get(url, params=params, headers={'Content-Type': 'application/json'},
-                                    auth=HTTPBasicAuth('apikey', api_key))
+            params["return_analyzed_text"] = kwargs["return_analyzed_text"]
+            print(params)
+            response = requests.get(url, 
+                                    text=kwargs["text"],
+                                    version=kwargs["version"],
+                                    features=kwargs["features"],
+                                    return_analyzed_text= kwargs["return_analyzed_text"],
+                                    headers={'Content-Type': 'application/json'},
+                                    api_key=kwargs['api_key']
+                                    )
         except:
             print("Network exception occurred")
     else:
@@ -132,25 +142,37 @@ def get_dealer_reviews_from_cf(url, dealer_id, **kwargs):
 # - Get the returned sentiment label such as Positive or Negative
 def analyze_review_sentiments(dealerreview, **kwargs):
     url = "https://api.us-south.natural-language-understanding.watson.cloud.ibm.com/instances/6c7755c8-7545-42ce-8512-a05f25de7841"
-    api_key = "bl2BwdebH6L-KcaRFwXivojSrJI-Qa_pZ1_IpcjHGdzn" 
+    api_key = "unMzdImt89TuzDVVCtZiqg9F23_-7IxNyZIQwF-xRd0-" 
     #Features(
      #   entities=EntitiesOptions(emotion=True, sentiment=True, limit=2),
       #  keywords=KeywordsOptions(emotion=True, sentiment=True,
        #                          limit=2))
-    features = {"features" : {
-                            "entities": {
-                                "emotion": True,
-                                "sentiment": True,
-                                "limit": 2
-                            },
-                            "keywords": {
-                                "emotion": True,
-                                "sentiment": True,
-                                "limit": 2
-                            }
-                    }
-    }
+    version = '2020-08-01'
+    features = "sentiment"
+    return_analyzed_text = True
+    text = dealerreview
     print("calling get_request for nlu")
-    json_result = get_request(url,api_key=api_key,text=dealerreview, features=features)
-    return json_result
+
+ 
+
+    #json_result = get_request(url,
+                            #api_key=api_key,
+                           # text=dealerreview, 
+                           # features=features,
+                           # version=version,
+                          #  return_analyzed_text=return_analyzed_text
+                            #)
+
+    authenticator = IAMAuthenticator(api_key) 
+    natural_language_understanding = NaturalLanguageUnderstandingV1(version='2021-08-01',authenticator=authenticator) 
+    natural_language_understanding.set_service_url(url) 
+
+    response = natural_language_understanding.analyze( text=text, features=Features(sentiment=SentimentOptions(targets=[text]))).get_result() 
+    label=json.dumps(response, indent=2)
+    label = response['sentiment']['document']['label']
+    print("label")
+    print(label)
+
+    return(label)
+    #return json_result
 
