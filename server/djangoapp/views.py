@@ -127,21 +127,23 @@ def get_dealer_details(request, dealer_id):
 def add_review(request, dealer_id):
     url = "https://us-south.functions.appdomain.cloud/api/v1/web/55541385-d011-41ed-ad7e-867fc2819f68/dealership-package/post_review"
     user = request.user
-    if user.is_authenticated:
+    if not user.is_authenticated:
         review = {}
-        review["dealership"] = 11
+        review["id"]= 1
+        review["name"]= "Berkly Shepley"
+        review["dealership"] = dealer_id
         review["review"] = "This is a great car dealer"
-        review["id"]: 1
-        review["name"]: "Berkly Shepley"
-        review["purchase"]: True
-        review["purchase_date"]: "07/11/2020"
-        review["car_make"]: "Audi"
-        review["car_model"]: "A6"
-        review["car_year"]: 2010
+        review["purchase"]= True
+        review["purchase_date"]= "07/11/2020"
+        review["car_make"]= "Audi"
+        review["car_model"]= "A6"
+        review["car_year"]= 2010  
+
         json_payload = {}
         json_payload["review"] = review
         response = post_request(url, json_payload, dealerId=dealer_id)
     else:
         return HttpResponse("User not logged in")
+    print("status code ")
     return HttpResponse(response)
 
