@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, render, redirect
 # from .models import related models
 # from .restapis import related methods
-from .restapis import get_dealers_from_cf, get_dealers_by_state, get_dealer_reviews_from_cf
+from .restapis import get_dealers_from_cf, get_dealers_by_state, get_dealer_reviews_from_cf, post_request
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from datetime import datetime
@@ -124,4 +124,24 @@ def get_dealer_details(request, dealer_id):
 # Create a `add_review` view to submit a review
 # def add_review(request, dealer_id):
 # ...
+def add_review(request, dealer_id):
+    url = "https://us-south.functions.appdomain.cloud/api/v1/web/55541385-d011-41ed-ad7e-867fc2819f68/dealership-package/post_review"
+    user = request.user
+    if user.is_authenticated:
+        review = {}
+        review["dealership"] = 11
+        review["review"] = "This is a great car dealer"
+        review["id"]: 1
+        review["name"]: "Berkly Shepley"
+        review["purchase"]: True
+        review["purchase_date"]: "07/11/2020"
+        review["car_make"]: "Audi"
+        review["car_model"]: "A6"
+        review["car_year"]: 2010
+        json_payload = {}
+        json_payload["review"] = review
+        response = post_request(url, json_payload, dealerId=dealer_id)
+    else:
+        return HttpResponse("User not logged in")
+    return HttpResponse(response)
 
