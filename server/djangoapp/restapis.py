@@ -119,30 +119,39 @@ def get_dealer_reviews_from_cf(url, dealer_id, **kwargs):
     results = []
     # Call get_request with a URL parameter
     json_result = get_request(url,id=dealer_id)
+    print("json_result")
+    print(json_result)
     if json_result:
         # Get the row list in JSON as dealers
-        dealers = json_result["data"] 
-        dealers = dealers['docs']
-        # For each dealer object
-        for dealer_doc in dealers:
-            # Get its content in `doc` object
-            print("calling analyze_review_sentiments")
-            sentiment = analyze_review_sentiments(dealer_doc['review'])
-            print('')
-            if dealer_doc['purchase']:
-                # Create a CarDealer object with values in `doc` object
-               
-                dealer_obj = DealerReview(dealership=dealer_doc["dealership"], purchase=dealer_doc["purchase"], name=dealer_doc["name"],
-                                    id=dealer_doc["id"], review=dealer_doc["review"], purchase_date=dealer_doc["purchase_date"],
-                                    car_make=dealer_doc["car_make"],
-                                    car_model=dealer_doc["car_model"], car_year=dealer_doc["car_year"], sentiment=sentiment)
-                results.append(dealer_obj)
-            else:
-                dealer_obj = DealerReview(dealership=dealer_doc["dealership"], purchase=dealer_doc["purchase"], name=dealer_doc["name"],
-                                    id=dealer_doc["id"], review=dealer_doc["review"], purchase_date=None,
-                                    car_make=None,
-                                    car_model=None, car_year=None, sentiment=sentiment)
-                results.append(dealer_obj)
+        print('response ')
+        print(json_result)
+        if 'error' in json_result:
+            results = results
+        else:
+            dealers = json_result["data"] 
+            dealers = dealers['docs']
+            # For each dealer object
+            for dealer_doc in dealers:
+                # Get its content in `doc` object
+                print("calling analyze_review_sentiments")
+                sentiment = analyze_review_sentiments(dealer_doc['review'])
+                print('')
+                if dealer_doc['purchase']:
+                    # Create a CarDealer object with values in `doc` object
+                    print('dealer_doc["dealership"]')
+                    print(dealer_doc["dealership"])
+                
+                    dealer_obj = DealerReview(dealership=dealer_doc["dealership"], purchase=dealer_doc["purchase"], name=dealer_doc["name"],
+                                        id=dealer_doc["id"], review=dealer_doc["review"], purchase_date=dealer_doc["purchase_date"],
+                                        car_make=dealer_doc["car_make"],
+                                        car_model=dealer_doc["car_model"], car_year=dealer_doc["car_year"], sentiment=sentiment)
+                    results.append(dealer_obj)
+                else:
+                    dealer_obj = DealerReview(dealership=dealer_doc["dealership"], purchase=dealer_doc["purchase"], name=dealer_doc["name"],
+                                        id=dealer_doc["id"], review=dealer_doc["review"], purchase_date=None,
+                                        car_make=None,
+                                        car_model=None, car_year=None, sentiment=sentiment)
+                    results.append(dealer_obj)
 
     return results
 

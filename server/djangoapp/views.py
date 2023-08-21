@@ -103,6 +103,8 @@ def get_dealerships(request):
         dealer_names = ' '.join([dealer.short_name for dealer in dealerships])
         # Return a list of dealer short name
         context["dealership_list"] = dealerships
+        print("dealerships")
+        print(dealerships)
         #return HttpResponse(dealer_names)
         return render(request, 'djangoapp/index.html', context)
 
@@ -117,9 +119,12 @@ def get_dealer_details(request, dealer_id):
         # Get dealers from the URL
         reviews = get_dealer_reviews_from_cf(url, dealer_id)
         #dealerships = get_dealers_by_state(url,'Texas')
-        context['reviews'] = reviews
-        # Concat all dealer's short name
-        dealer_names = ' '.join([review.review for review in reviews])
+        if reviews:
+            context['reviews'] = reviews
+            # Concat all dealer's short name
+            dealer_names = ' '.join([review.review for review in reviews])
+        else:
+            dealer_names = 'no reviews'
         # Return a list of dealer short name
         return HttpResponse(dealer_names)
 
