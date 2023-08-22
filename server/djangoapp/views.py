@@ -118,6 +118,7 @@ def get_dealer_details(request, dealer_id):
         url = "https://us-south.functions.appdomain.cloud/api/v1/web/55541385-d011-41ed-ad7e-867fc2819f68/dealership-package/get_review"
         # Get dealers from the URL
         reviews = get_dealer_reviews_from_cf(url, dealer_id)
+        no_reviews = False
         #dealerships = get_dealers_by_state(url,'Texas')
         if reviews:
             context['reviews'] = reviews
@@ -130,6 +131,9 @@ def get_dealer_details(request, dealer_id):
             dealer_names = ' '.join([review.review for review in reviews])
         else:
             dealer_names = 'no reviews'
+            no_reviews = True
+        context['no_reviews'] = no_reviews
+        
         # Return a list of dealer short name
         #return HttpResponse(dealer_names)
         return render(request, 'djangoapp/dealer_details.html', context)
@@ -140,6 +144,7 @@ def get_dealer_details(request, dealer_id):
 def add_review(request, dealer_id):
     url = "https://us-south.functions.appdomain.cloud/api/v1/web/55541385-d011-41ed-ad7e-867fc2819f68/dealership-package/post_review"
     user = request.user
+    context = {}
     if request.method == 'GET':
 
         if not user.is_authenticated:
@@ -158,11 +163,15 @@ def add_review(request, dealer_id):
             json_payload["review"] = review
             #response = post_request(url, json_payload, dealerId=dealer_id)
             cars = CarModel.objects.filter(Q(dealer_id=dealer_id)) 
-            print(cars)
+            print(cars) 
         else:
-            return HttpResponse("User not logged in")
+            context['dealer_id'] = dealer_id 
+            #return HttpResponse("User not logged in")
+            return render(request, 'djangoapp/add_review.html', context)
+
         print("status code ")
         #return HttpResponse(response)
         return HttpResponse(cars)
-    return HttpResponse('no')
+    #return HttpResponse('no')
+    return render(request, 'djangoapp/add_review.html', context)
 
