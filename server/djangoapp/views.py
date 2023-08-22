@@ -121,7 +121,10 @@ def get_dealer_details(request, dealer_id):
         #dealerships = get_dealers_by_state(url,'Texas')
         if reviews:
             context['reviews'] = reviews
+            for review in reviews:
+                dealer_name = review.name
             # Concat all dealer's short name
+            context['dealer_name'] = dealer_name
             dealer_names = ' '.join([review.review for review in reviews])
         else:
             dealer_names = 'no reviews'
@@ -142,7 +145,7 @@ def add_review(request, dealer_id):
         review["dealership"] = dealer_id
         review["review"] = "This is a great car dealer"
         review["purchase"]= True
-        review["purchase_date"]= "07/11/2020"
+        review["purchase_date"]= "07/11/2021"
         review["car_make"]= "Audi"
         review["car_model"]= "A6"
         review["car_year"]= 2010  
