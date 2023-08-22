@@ -123,8 +123,10 @@ def get_dealer_details(request, dealer_id):
             context['reviews'] = reviews
             for review in reviews:
                 dealer_name = review.name
+                
             # Concat all dealer's short name
             context['dealer_name'] = dealer_name
+            context['dealer_id'] = dealer_id
             dealer_names = ' '.join([review.review for review in reviews])
         else:
             dealer_names = 'no reviews'
@@ -138,23 +140,29 @@ def get_dealer_details(request, dealer_id):
 def add_review(request, dealer_id):
     url = "https://us-south.functions.appdomain.cloud/api/v1/web/55541385-d011-41ed-ad7e-867fc2819f68/dealership-package/post_review"
     user = request.user
-    if not user.is_authenticated:
-        review = {}
-        review["id"]= 1
-        review["name"]= "Berkly Shepley"
-        review["dealership"] = dealer_id
-        review["review"] = "This is a great car dealer"
-        review["purchase"]= True
-        review["purchase_date"]= "07/11/2021"
-        review["car_make"]= "Audi"
-        review["car_model"]= "A6"
-        review["car_year"]= 2010  
+    if request.method == 'GET':
 
-        json_payload = {}
-        json_payload["review"] = review
-        response = post_request(url, json_payload, dealerId=dealer_id)
-    else:
-        return HttpResponse("User not logged in")
-    print("status code ")
-    return HttpResponse(response)
+        if not user.is_authenticated:
+            review = {}
+            review["id"]= 1
+            review["name"]= "Berkly Shepley"
+            review["dealership"] = dealer_id
+            review["review"] = "This is a great car dealer"
+            review["purchase"]= True
+            review["purchase_date"]= "07/11/2021"
+            review["car_make"]= "Audi"
+            review["car_model"]= "A6"
+            review["car_year"]= 2010  
+
+            json_payload = {}
+            json_payload["review"] = review
+            #response = post_request(url, json_payload, dealerId=dealer_id)
+            cars = CarModel.objects.filter(Q(dealer_id=dealer_id)) 
+            print(cars)
+        else:
+            return HttpResponse("User not logged in")
+        print("status code ")
+        #return HttpResponse(response)
+        return HttpResponse(cars)
+    return HttpResponse('no')
 
