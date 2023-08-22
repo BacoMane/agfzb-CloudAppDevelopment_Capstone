@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, render, redirect
 # from .models import related models
+from .models import CarModel
 # from .restapis import related methods
 from .restapis import get_dealers_from_cf, get_dealers_by_state, get_dealer_reviews_from_cf, post_request
 from django.contrib.auth import login, logout, authenticate
@@ -166,6 +167,11 @@ def add_review(request, dealer_id):
             print(cars) 
         else:
             context['dealer_id'] = dealer_id 
+            context['dealer_name'] = "Berkly Shepley"
+            cars = CarModel.objects.get(dealer_id=dealer_id) 
+            print('cars')
+            print(cars) 
+            context ['cars'] = cars
             #return HttpResponse("User not logged in")
             return render(request, 'djangoapp/add_review.html', context)
 
