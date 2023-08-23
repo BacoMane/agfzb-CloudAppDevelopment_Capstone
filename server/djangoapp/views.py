@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, render, redirect
 # from .models import related models
-from .models import CarModel
+from .models import CarModel,CarMake
 # from .restapis import related methods
 from .restapis import get_dealers_from_cf, get_dealers_by_state, get_dealer_reviews_from_cf, post_request
 from django.contrib.auth import login, logout, authenticate
@@ -166,14 +166,23 @@ def add_review(request, dealer_id):
             json_payload = {}
             json_payload["review"] = review
             #response = post_request(url, json_payload, dealerId=dealer_id)
-            #cars = CarModel.objects.filter(Q(dealer_id=dealer_id)) 
+            cars = CarModel.objects.all() 
+            cars_makes = CarMake.objects.all()
+            print('list of cars')
+            for car in cars:
+                print(car)
+                print(car.year)
+            print('list of makes')
+            for make in cars_makes:
+                print(make)
             print(cars) 
         else:
             context['dealer_id'] = dealer_id 
             context['dealer_name'] = "Berkly Shepley"
             #cars = CarModel.objects.get(dealer_id=dealer_id) 
             #cars = serializers.serialize( "python", CarModel.objects.get(dealer_id=dealer_id) )
-            cars = model_to_dict(CarModel.objects.get(dealer_id=dealer_id))
+            #cars = model_to_dict(CarModel.objects.get(dealer_id=dealer_id))
+            cars = CarModel.objects.filter(dealer_id=dealer_id)
             print('cars')
             print(cars) 
             context ['cars'] = cars 

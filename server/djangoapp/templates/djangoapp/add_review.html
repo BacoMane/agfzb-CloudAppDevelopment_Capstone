@@ -29,7 +29,7 @@
                     <label for="lastname"><b>Select your car (model-make-year)</b></label>
                     <select name="car" id="car" class="form-select" required> <!-- Style input with .form-control class -->
                         {% for car1 in cars %}
-                            <option>a6</option>
+                            <option>{{car1.name}}-{{car1.make}}-{{car1.year}}</option>
                         {% endfor %}
                     </select>
                     <hr>
