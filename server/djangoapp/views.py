@@ -193,5 +193,33 @@ def add_review(request, dealer_id):
         #return HttpResponse(response)
         return HttpResponse(cars)
     #return HttpResponse('no')
+    if request.method == 'POST': 
+        if user.is_authenticated: 
+            review = {}  
+            review["id"]= 1             
+            review["name"]= "Berkly Shepley"
+            review["dealership"] = dealer_id
+            review["review"] = request.POST['review']
+            if 'purchased' in request.POST:
+                review["purchase"] = True
+            else:
+                review['purchase'] = False
+            review["purchase_date"]= request.POST['purchase_date']
+            
+            review["car_make"]= "Audi"
+            review["car_model"]= "A6"
+            review["car_year"]= 2010 
+
+            json_payload = {} 
+            json_payload["review2"] = review
+            print('request to be added')
+            print(request)
+            for key, value in request.POST.items():
+                print('Key: %s' % (key) ) 
+                # print(f'Key: {key}') in Python >= 3.7
+                print('Value %s' % (value) )
+                # print(f'Value: {value}') in Python >= 3.7 
+            #response = post_request(url, json_payload, dealerId=dealer_id)
+            return HttpResponse('review added')
     return render(request, 'djangoapp/add_review.html', context)
 

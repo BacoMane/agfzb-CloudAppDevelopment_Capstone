@@ -18,23 +18,34 @@
                 <h1>Add a review about <b>{{dealer_name}} Dealership</b></h1>
                 <hr>
                 <div class="form-group"> <!--Style second div with .form-group class {{car.name}}-{{car.make}}-{{car.year}}-->
-                    <label for="username"><b>Enter thre review content:</b></label>
-                    <textarea class="form-control" id="content" name="content" rows="2" placeholder= "This is a great car dealer" required></textarea> <!--Style input with .form-control class -->
+                    <label for="review"><b>Enter thre review content:</b></label>
+                    <textarea class="form-control" id="review" name="review" rows="2" placeholder= "This is a great car dealer" required></textarea> <!--Style input with .form-control class -->
                     <hr>
                     <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="7" name="choice">
+                        <input type="checkbox" class="form-check-input" id="purchased" name="purchased">
                         <label class="form-check-label">Has purchased the car from  {{dealer_name}} dealership? (select purchased car information below if checked)</label>
                     </div>
                     <hr>
-                    <label for="lastname"><b>Select your car (model-make-year)</b></label>
-                    <select name="car" id="car" class="form-select" required> <!-- Style input with .form-control class -->
+                    <label for="car"><b>Select your car (model-make-year)</b></label>
+                    <!--<select name="car" id="car" class="form-select" required>  Style input with .form-control class 
                         {% for car1 in cars %}
                             <option>{{car1.name}}-{{car1.make}}-{{car1.year}}</option>
                         {% endfor %}
-                    </select>
+                    </select>-->
+
+                    <select name="car" id="car" class="form-select" required>
+                        {% for car in cars %}
+                            <option selected value={{car.id}}>{{car.name}}-{{car.make.name}}-{{ car.year|date:"Y" }}</option>
+                        {% endfor %}
+                   </select>
                     <hr>
                     <label for="date-own"><b>Select your purchase date</b></label>
-                    <input class="date-own form-control" type="date" name="purchasedate" id="purchasedate">
+                    <input class="date-own form-control" type="date" name="purchase_date" id="purchase_date">
+                    <script type="text/javascript">
+                        $('.date-own').datepicker({
+                           format: 'mm/dd/yyyy'
+                         });
+                    </script>
                     <hr>
                     <button class="btn btn-primary" type="submit">Add Review</button> <!--Style button with .btn and .btn-primary class -->
                 </div>
