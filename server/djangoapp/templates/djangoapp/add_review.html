@@ -17,7 +17,7 @@
                 {% csrf_token %}
                 <h1>Add a review about <b>{{dealer_name}} Dealership</b></h1>
                 <hr>
-                <div class="form-group"> <!--Style second div with .form-group class -->
+                <div class="form-group"> <!--Style second div with .form-group class {{car.name}}-{{car.make}}-{{car.year}}-->
                     <label for="username"><b>Enter thre review content:</b></label>
                     <textarea class="form-control" id="content" name="content" rows="2" placeholder= "This is a great car dealer" required></textarea> <!--Style input with .form-control class -->
                     <hr>
@@ -27,7 +27,11 @@
                     </div>
                     <hr>
                     <label for="lastname"><b>Select your car (model-make-year)</b></label>
-                    <select name="car" id="car" class="form-select" required> <!--Style input with .form-control class --></select>
+                    <select name="car" id="car" class="form-select" required> <!-- Style input with .form-control class -->
+                        {% for car1 in cars %}
+                            <option>a6</option>
+                        {% endfor %}
+                    </select>
                     <hr>
                     <label for="date-own"><b>Select your purchase date</b></label>
                     <input class="date-own form-control" type="date" name="purchasedate" id="purchasedate">

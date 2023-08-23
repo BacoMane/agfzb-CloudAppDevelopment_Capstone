@@ -11,6 +11,9 @@ from django.contrib import messages
 from datetime import datetime
 import logging
 import json
+from django.core import serializers
+from django.db.models import Q
+from django.forms.models import model_to_dict
 
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
@@ -163,15 +166,17 @@ def add_review(request, dealer_id):
             json_payload = {}
             json_payload["review"] = review
             #response = post_request(url, json_payload, dealerId=dealer_id)
-            cars = CarModel.objects.filter(Q(dealer_id=dealer_id)) 
+            #cars = CarModel.objects.filter(Q(dealer_id=dealer_id)) 
             print(cars) 
         else:
             context['dealer_id'] = dealer_id 
             context['dealer_name'] = "Berkly Shepley"
-            cars = CarModel.objects.get(dealer_id=dealer_id) 
+            #cars = CarModel.objects.get(dealer_id=dealer_id) 
+            #cars = serializers.serialize( "python", CarModel.objects.get(dealer_id=dealer_id) )
+            cars = model_to_dict(CarModel.objects.get(dealer_id=dealer_id))
             print('cars')
             print(cars) 
-            context ['cars'] = cars
+            context ['cars'] = cars 
             #return HttpResponse("User not logged in")
             return render(request, 'djangoapp/add_review.html', context)
 
