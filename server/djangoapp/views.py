@@ -152,19 +152,7 @@ def add_review(request, dealer_id):
     if request.method == 'GET':
 
         if not user.is_authenticated:
-            review = {}
-            review["id"]= 1
-            review["name"]= "Berkly Shepley"
-            review["dealership"] = dealer_id
-            review["review"] = "This is a great car dealer"
-            review["purchase"]= True
-            review["purchase_date"]= "07/11/2021"
-            review["car_make"]= "Audi"
-            review["car_model"]= "A6"
-            review["car_year"]= 2010  
-
-            json_payload = {}
-            json_payload["review"] = review
+            
             #response = post_request(url, json_payload, dealerId=dealer_id)
             cars = CarModel.objects.all() 
             cars_makes = CarMake.objects.all()
@@ -195,38 +183,45 @@ def add_review(request, dealer_id):
     #return HttpResponse('no')
     if request.method == 'POST':
         if user.is_authenticated: 
-            review = {}  
-            review["id"]= 1
-            dealer = CarDealer.get(id=dealer_id)
-            
-            review["name"]= dealer.full_name
-            print('dealer name')
-            print(dealer.full_name) 
+            review = {}
+            review["id"]= dealer_id
+            review["name"]= request.user.username
             review["dealership"] = dealer_id
             review["review"] = request.POST['review']
             if 'purchased' in request.POST:
-                review["purchase"] = True
-                car = CarModel.objects.get(id=request.POST['car'])
-                review["car_make"]= car.make
-                review["car_model"]= car.name
-                review["car_year"]= car.year
-                review["purchase_date"]= request.POST['purchase_date']
-                print('car make')
-                print(car.make)
+                if request.POST['purchased'] == 'on':
+                    review["purchase"] = True
+                    car = CarModel.objects.get(id=request.POST['car'])
+                    review["car_make"]= car.make.name
+                    review["car_model"]= car.name
+                    review["car_year"]= int(car.year.strftime("%Y"))
+                    review["purchase_date"]= request.POST['purchase_date']
+                    #return HttpResponse('review added for purchased car')
+                    json_payload = {}
+                    json_payload["review"] = review
+                    print('review')
+                    print(review)
+                    response = post_request(url, json_payload, dealerId=dealer_id)
+                    
             else:
                 review['purchase'] = False
+                #return HttpResponse('review added for not purchased car')
+                json_payload = {}
+                json_payload["review"] = review
+                print('review')
+                print(review)
+                response = post_request(url, json_payload, dealerId=dealer_id)
+            return redirect("djangoapp:dealer_details", dealer_id=dealer_id) 
             
-            json_payload = {} 
-            json_payload["review2"] = review
-            print('request to be added')
-            print(request)
-            for key, value in request.POST.items():
-                print('Key: %s' % (key) ) 
+            #print('request to be added')
+            #print(request)
+            #for key, value in request.POST.items():
+                #print('Key: %s' % (key) ) 
                 # print(f'Key: {key}') in Python >= 3.7
-                print('Value %s' % (value) )
+                #print('Value %s' % (value) )
                 # print(f'Value: {value}') in Python >= 3.7 
-            print(dict(request.POST.items()))
+            #print(dict(request.POST.items()))
             #response = post_request(url, json_payload, dealerId=dealer_id)
-            return HttpResponse('review added')
+            #return HttpResponse('review added')
     return render(request, 'djangoapp/add_review.html', context)
 
