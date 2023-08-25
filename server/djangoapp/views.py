@@ -10,7 +10,7 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from datetime import datetime
 import logging
-import json 
+import json
 from django.core import serializers
 from django.db.models import Q
 from django.forms.models import model_to_dict
@@ -117,6 +117,7 @@ def get_dealerships(request):
 # ...
 def get_dealer_details(request, dealer_id, dealer_full_name):
     context = {}
+    print('we are here')
     if request.method == "GET":
         #return render(request, 'djangoapp/index.html', context)
         url = "https://us-south.functions.appdomain.cloud/api/v1/web/55541385-d011-41ed-ad7e-867fc2819f68/dealership-package/get_review"
@@ -125,13 +126,7 @@ def get_dealer_details(request, dealer_id, dealer_full_name):
         no_reviews = False
         #dealerships = get_dealers_by_state(url,'Texas')
 
-        url1 = "https://us-south.functions.appdomain.cloud/api/v1/web/55541385-d011-41ed-ad7e-867fc2819f68/dealership-package/get_dealer_name"
-        json_result = get_request(url1,id=dealer_id)
-        if json_result:
-            # Get the row list in JSON as dealers
-            #dealers = json_result["rows"]
-            print('get dealer eresult')
-            print(json_result)
+        
 
         if reviews:
             context['reviews'] = reviews
@@ -149,6 +144,7 @@ def get_dealer_details(request, dealer_id, dealer_full_name):
             dealer_names = 'no reviews'
             no_reviews = True
         context['no_reviews'] = no_reviews
+        context['dealer_id'] = dealer_id
         context['dealer_full_name'] = dealer_full_name
         # Return a list of dealer short name
         #return HttpResponse(dealer_names)
@@ -157,10 +153,12 @@ def get_dealer_details(request, dealer_id, dealer_full_name):
 # Create a `add_review` view to submit a review
 # def add_review(request, dealer_id):
 # ...
-def add_review(request, dealer_id):
+def add_review(request, dealer_id, dealer_full_name):
     url = "https://us-south.functions.appdomain.cloud/api/v1/web/55541385-d011-41ed-ad7e-867fc2819f68/dealership-package/post_review"
     user = request.user
     context = {}
+    print("reqeust method for add review")
+    print(request.method)
     if request.method == 'GET':
 
         if not user.is_authenticated:
@@ -223,7 +221,7 @@ def add_review(request, dealer_id):
                 print('review')
                 print(review)
                 response = post_request(url, json_payload, dealerId=dealer_id)
-            return redirect("djangoapp:dealer_details", dealer_id=dealer_id) 
+            return redirect("djangoapp:dealer_details", dealer_id=dealer_id, dealer_full_name=dealer_full_name) 
             
             #print('request to be added')
             #print(request)
