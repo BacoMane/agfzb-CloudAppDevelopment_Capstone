@@ -10,7 +10,7 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from datetime import datetime
 import logging
-import json
+import json 
 from django.core import serializers
 from django.db.models import Q
 from django.forms.models import model_to_dict
@@ -115,7 +115,7 @@ def get_dealerships(request):
 # Create a `get_dealer_details` view to render the reviews of a dealer
 # def get_dealer_details(request, dealer_id):
 # ...
-def get_dealer_details(request, dealer_id):
+def get_dealer_details(request, dealer_id, dealer_full_name):
     context = {}
     if request.method == "GET":
         #return render(request, 'djangoapp/index.html', context)
@@ -139,22 +139,17 @@ def get_dealer_details(request, dealer_id):
                 dealer_name = review.name
                 
             # Concat all dealer's short name
-            url1 = "https://us-south.functions.appdomain.cloud/api/v1/web/55541385-d011-41ed-ad7e-867fc2819f68/dealership-package/get_dealer_name"
-            json_result = get_request(url1,id=dealer_id)
-            if json_result:
-                # Get the row list in JSON as dealers
-                dealers = json_result["rows"]
-                print('get dealer eresult')
-                print(json_result)
+
 
             context['dealer_name'] = dealer_name
             context['dealer_id'] = dealer_id
+            
             dealer_names = ' '.join([review.review for review in reviews])
         else:
             dealer_names = 'no reviews'
             no_reviews = True
         context['no_reviews'] = no_reviews
-        
+        context['dealer_full_name'] = dealer_full_name
         # Return a list of dealer short name
         #return HttpResponse(dealer_names)
         return render(request, 'djangoapp/dealer_details.html', context)
