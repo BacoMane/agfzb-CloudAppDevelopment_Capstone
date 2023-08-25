@@ -15,10 +15,10 @@
         <form action="{% url 'djangoapp:add_review' dealer_id %}" method="post">
             <div class="container"> <!--Style root div with .container class -->
                 {% csrf_token %}
-                <h1>Add a review about <b>{{dealer_name}} Dealership</b></h1>
+                <h1>Add a review about <b> {{dealer_name}} Dealership</b></h1>
                 <hr>
                 <div class="form-group"> <!--Style second div with .form-group class {{car.name}}-{{car.make}}-{{car.year}}-->
-                    <label for="review"><b>Enter thre review content:</b></label>
+                    <label for="review"><b>Enter the review content:</b></label>
                     <textarea class="form-control" id="review" name="review" rows="2" placeholder= "This is a great car dealer" required></textarea> <!--Style input with .form-control class -->
                     <hr>
                     <div class="form-check">

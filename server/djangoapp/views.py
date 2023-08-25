@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404, render, redirect
 # from .models import related models
 from .models import CarModel,CarMake, CarDealer
 # from .restapis import related methods
-from .restapis import get_dealers_from_cf, get_dealers_by_state, get_dealer_reviews_from_cf, post_request
+from .restapis import get_dealers_from_cf, get_dealers_by_state, get_dealer_reviews_from_cf, post_request, get_request
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from datetime import datetime
@@ -124,12 +124,29 @@ def get_dealer_details(request, dealer_id):
         reviews = get_dealer_reviews_from_cf(url, dealer_id)
         no_reviews = False
         #dealerships = get_dealers_by_state(url,'Texas')
+
+        url1 = "https://us-south.functions.appdomain.cloud/api/v1/web/55541385-d011-41ed-ad7e-867fc2819f68/dealership-package/get_dealer_name"
+        json_result = get_request(url1,id=dealer_id)
+        if json_result:
+            # Get the row list in JSON as dealers
+            #dealers = json_result["rows"]
+            print('get dealer eresult')
+            print(json_result)
+
         if reviews:
             context['reviews'] = reviews
             for review in reviews:
                 dealer_name = review.name
                 
             # Concat all dealer's short name
+            url1 = "https://us-south.functions.appdomain.cloud/api/v1/web/55541385-d011-41ed-ad7e-867fc2819f68/dealership-package/get_dealer_name"
+            json_result = get_request(url1,id=dealer_id)
+            if json_result:
+                # Get the row list in JSON as dealers
+                dealers = json_result["rows"]
+                print('get dealer eresult')
+                print(json_result)
+
             context['dealer_name'] = dealer_name
             context['dealer_id'] = dealer_id
             dealer_names = ' '.join([review.review for review in reviews])
