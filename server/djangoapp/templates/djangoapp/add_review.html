@@ -12,7 +12,7 @@
     </head>
     <body>
     <!--Add review form here -->
-        <form action="{% url 'djangoapp:add_review' dealer_id %}" method="post">
+        <form action="{% url 'djangoapp:add_review' dealer_id dealer_full_name %}" method="post">
             <div class="container"> <!--Style root div with .container class -->
                 {% csrf_token %}
                 <h1>Add a review about <b> {{dealer_name}} Dealership</b></h1>
@@ -33,7 +33,7 @@
                         {% endfor %}
                     </select>-->
 
-                    <select name="car" id="car" class="form-select" required>
+                    <select name="car" id="car" class="form-select" >
                         {% for car in cars %}
                             <option selected value={{car.id}}>{{car.name}}-{{car.make.name}}-{{ car.year|date:"Y" }}</option>
                         {% endfor %}

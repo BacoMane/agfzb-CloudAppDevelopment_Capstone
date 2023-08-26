@@ -125,20 +125,13 @@ def get_dealer_details(request, dealer_id, dealer_full_name):
         reviews = get_dealer_reviews_from_cf(url, dealer_id)
         no_reviews = False
         #dealerships = get_dealers_by_state(url,'Texas')
-
-        
-
         if reviews:
             context['reviews'] = reviews
-            for review in reviews:
-                dealer_name = review.name
-                
+            #for review in reviews:
+                #dealer_name = review.name
             # Concat all dealer's short name
-
-
-            context['dealer_name'] = dealer_name
+            context['dealer_full_name'] = dealer_full_name
             context['dealer_id'] = dealer_id
-            
             dealer_names = ' '.join([review.review for review in reviews])
         else:
             dealer_names = 'no reviews'
@@ -146,6 +139,7 @@ def get_dealer_details(request, dealer_id, dealer_full_name):
         context['no_reviews'] = no_reviews
         context['dealer_id'] = dealer_id
         context['dealer_full_name'] = dealer_full_name
+        context['username'] = request.user.username
         # Return a list of dealer short name
         #return HttpResponse(dealer_names)
         return render(request, 'djangoapp/dealer_details.html', context)
@@ -182,9 +176,11 @@ def add_review(request, dealer_id, dealer_full_name):
             #cars = model_to_dict(CarModel.objects.get(dealer_id=dealer_id))
             cars = CarModel.objects.filter(dealer_id=dealer_id)
             print('cars')
-            print(cars) 
-            context ['cars'] = cars 
+            print(cars)
+            context ['cars'] = cars
+            context['dealer_full_name'] = dealer_full_name
             #return HttpResponse("User not logged in")
+            print('rendering add review template')
             return render(request, 'djangoapp/add_review.html', context)
 
         print("status code ")
