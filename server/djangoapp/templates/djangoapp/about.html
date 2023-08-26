@@ -1,5 +1,62 @@
 <html>
-<h1>
-Welcome to Best Cars dealership, home to the best cars in North America. We sell domestic and imported cars at reasonable prices.
-</h1>
-</html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Dealership Review</title>
+        {% load static %}
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+        <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+        <!------ Include the above in your HEAD tag ---------->
+        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    </head>
+    
+    <body class="d-flex flex-column min-vh-100">
+        <nav class="navbar navbar-light bg-light">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="{% url 'djangoapp:index' %}">Home</a>
+                </div>
+            </div>
+        </nav>
+        <div class="about-section paddingTB60 gray-bg">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-7 col-sm-6">
+                        <div class="about-title clearfix">
+                            <h1>About <span>Best Cars dealership</span></h1>
+                            
+                            <p class="about-paddingB">Welcome to Best Cars dealership, home to the best cars in North America. We sell domestic and imported cars at reasonable prices. </p>
+                            
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        <section class="mt-auto">
+            <!-- Footer -->
+            <footer class="text-center text-white mt-auto" style="background-color: #0a4275;">
+                <!-- Grid container -->
+                <div class="container p-4 pb-0">
+                    <!-- Section: CTA -->
+                    <section class="">
+                    <p class="d-flex justify-content-center align-items-center">
+                        <a href="{% url 'djangoapp:contact' %}" class="text-white" >Contact Us</a>
+                    </p>
+                    </section>
+                    <!-- Section: CTA -->
+                </div>
+                <!-- Grid container -->
+            
+                <!-- Copyright -->
+                <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+                    © 2023 Copyright:
+                    <a class="text-white" href="{% url 'djangoapp:index' %}">Best Cars dealership</a>
+                </div>
+                <!-- Copyright -->
+            </footer>
+            <!-- Footer -->
+          </section>
+    </body
+</html> 

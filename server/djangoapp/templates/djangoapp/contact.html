@@ -1,5 +1,80 @@
 <html>
-<h1>
-Contact Best Cars dealership.
-</h1>
+    <head>
+        <meta charset="UTF-8">
+        <title>Dealership Review</title>
+        {% load static %}
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+        <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+        <!------ Include the above in your HEAD tag ---------->
+        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    </head>
+    <body class="d-flex flex-column min-vh-100">
+        <nav class="navbar navbar-light bg-light">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="{% url 'djangoapp:index' %}">Home</a>
+                    <a class="navbar-brand" href="{% url 'djangoapp:about' %}">About Us</a>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3">
+                    <div class="well well-sm">
+                        <form class="form-horizontal" action="" method="post">
+                            <fieldset>
+                                <legend class="text-center">Contact Best Cars dealership.</legend>
+                                <!-- Name input-->
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label" for="name">Name</label>
+                                    <div class="col-md-9">
+                                        <input id="name" name="name" type="text" placeholder="Your name" class="form-control">
+                                    </div>
+                                </div>
+                                <!-- Email input-->
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label" for="email">Your E-mail</label>
+                                    <div class="col-md-9">
+                                        <input id="email" name="email" type="text" placeholder="Your email" class="form-control">
+                                    </div>
+                                </div>
+                                <!-- Message body -->
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label" for="message">Your message</label>
+                                    <div class="col-md-9">
+                                        <textarea class="form-control" id="message" name="message" placeholder="Please enter your message here..." rows="5"></textarea>
+                                    </div>
+                                </div>
+                                <!-- Form actions -->
+                                <div class="form-group">
+                                    <div class="col-md-12 text-right">
+                                        <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <section class="mt-auto">
+            <!-- Footer -->
+            <footer class="text-center text-white mt-auto" style="background-color: #0a4275;">
+                <!-- Grid container -->
+                
+                <!-- Grid container -->
+            
+                <!-- Copyright -->
+                <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+                    © 2023 Copyright:
+                    <a class="text-white" href="{% url 'djangoapp:index' %}">Best Cars dealership</a>
+                </div>
+                <!-- Copyright -->
+            </footer>
+            <!-- Footer -->
+        </section>
+    </body>
 </html>
