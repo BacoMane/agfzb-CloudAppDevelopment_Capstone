@@ -13,7 +13,7 @@
 
     </head>
 
-    <body>
+    <body class="d-flex flex-column min-vh-100">
         <!-- Remove this line the first time you edit this file
         This is the index page of your Django app!
         Add a nav bar here -->
@@ -77,28 +77,29 @@
         </table>
     </body>
     <!-- Footer -->
-    <footer class="bg-dark text-center text-white">
-    
-        <section class="">
-            <!--Grid row-->
-            <div class="row">
-       
-            <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+    <section class="mt-auto">
+        <!-- Footer -->
+        <footer class="text-center text-white mt-auto" style="background-color: #0a4275;">
+          <!-- Grid container -->
+          <div class="container p-4 pb-0">
+            <!-- Section: CTA -->
+            <section class="">
+              <p class="d-flex justify-content-center align-items-center">
                 <a href="{% url 'djangoapp:contact' %}" class="text-white" >Contact Us</a>
-            </div>
+              </p>
+            </section>
+            <!-- Section: CTA -->
+          </div>
+          <!-- Grid container -->
       
-            </div>
-            <!--Grid column-->
-            </div>
-            <!--Grid row-->
-        </section>
-        <!-- Section: Links -->
-        <!-- Grid container -->
-  
-        <!-- Copyright -->
-        
-        <!-- Copyright -->
-    </footer>
-    <!-- Footer -->
+          <!-- Copyright -->
+          <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+            © 2023 Copyright:
+            <a class="text-white" href="{% url 'djangoapp:index' %}">Dealerships</a>
+          </div>
+          <!-- Copyright -->
+        </footer>
+        <!-- Footer -->
+      </section>
 
 </html>
