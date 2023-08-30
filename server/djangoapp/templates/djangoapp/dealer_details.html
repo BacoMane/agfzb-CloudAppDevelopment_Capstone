@@ -50,17 +50,17 @@
                             {% if review.sentiment == 'positive' %}
                                 <div class="card-header">
                                     <img class="rounded float-left" style="max-width:15%" alt="Responsive image" src="{{MEDIA_URL}}/emoji/positive.png" alt="Card image cap">
-                                    <h3>&nbsp;{{username}}</h3>
+                                    <h3>&nbsp;{{review.name}}</h3>
                                 </div>
                             {% elif review.sentiment == 'negative' %}
                                 <div class="card-header">
                                     <img class="rounded float-left" style="max-width:15%" alt="Responsive image" src="{{MEDIA_URL}}/emoji/negative.png" alt="Card image cap">
-                                    <h3>&nbsp;{{username}}</h3>
+                                    <h3>&nbsp;{{review.name}}</h3>
                                 </div>
                             {% else %}
                                 <div class="card-header">
                                     <img class="rounded float-left" style="max-width:15%" alt="Responsive image" src="{{MEDIA_URL}}/emoji/neutral.png" alt="Card image cap">
-                                    <h3>&nbsp;{{username}}</h3>
+                                    <h3>&nbsp;{{review.name}}</h3>
                                 </div>
                             {% endif %}
                             {% if review.car_make == None %}
