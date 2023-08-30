@@ -27,7 +27,8 @@ DEBUG = True
 
 APPEND_SLASH = True
 
-ALLOWED_HOSTS = ["localhost", ".cognitiveclass.ai"]
+ALLOWED_HOSTS = ["localhost"]
+CSRF_TRUSTED_ORIGINS = [".cognitiveclass.ai"]
 
 
 # Application definition
