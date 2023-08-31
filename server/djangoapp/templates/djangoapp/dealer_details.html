@@ -46,7 +46,7 @@
             <div class="row">
                 {% for review in reviews %}
                     <div class="col-sm-4">
-                        <div class="card" style="width: 18rem;">
+                        <div class="card mb-3" style="width: 18rem;">
                             {% if review.sentiment == 'positive' %}
                                 <div class="card-header">
                                     <img class="rounded float-left" style="max-width:15%" alt="Responsive image" src="{{MEDIA_URL}}/emoji/positive.png" alt="Card image cap">
