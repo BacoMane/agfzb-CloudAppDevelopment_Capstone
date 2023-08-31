@@ -1,4 +1,4 @@
-import requests
+import requests 
 import json
 # import related models here
 from .models import CarDealer, DealerReview 
@@ -118,7 +118,7 @@ def get_dealers_by_state(url, dealerState, **kwargs):
 def get_dealer_reviews_from_cf(url, dealer_id, **kwargs):
     results = []
     # Call get_request with a URL parameter
-    json_result = get_request(url,id=dealer_id)
+    json_result = get_request(url,dealerId=dealer_id)
     print("json_result")
     print(json_result)
     if json_result:
