@@ -111,13 +111,29 @@ def get_dealers_by_state(url, dealerState, **kwargs):
 
     return results
 
+def get_dealer_by_id(url, dealerId, **kwargs):
+    results = []
+    # Call get_request with a URL parameter
+    json_result = get_request(url,dealerId=dealerId)
+    print('json result for dealer by id')
+    print(json_result)
+    if json_result:
+        # Get the row list in JSON as dealers
+        dealers = json_result["docs"]
+        # For each dealer object
+        dealer = dealers[0]
+        full_name=dealer["full_name"]
+    print('dealer full name from cf')
+    print(full_name)
+    return full_name
+
 # Create a get_dealer_reviews_from_cf method to get reviews by dealer id from a cloud function
 # def get_dealer_by_id_from_cf(url, dealerId):
 # - Call get_request() with specified arguments
 # - Parse JSON results into a DealerView object list
 def get_dealer_reviews_from_cf(url, dealer_id, **kwargs):
     results = []
-    # Call get_request with a URL parameter
+    # Call get_request with a URL parameter 
     json_result = get_request(url,dealerId=dealer_id)
     print("json_result")
     print(json_result)
